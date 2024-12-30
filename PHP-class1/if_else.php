@@ -48,7 +48,7 @@
            elseif($marks >=33 and $marks <=39){
                     $grade = "C";
                  }
-                 else{
+           else {
                     $grade = "F";
                  }
 
