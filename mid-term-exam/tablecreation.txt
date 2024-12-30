@@ -1,0 +1,6 @@
+##create admin users table
+CREATE TABLE admin_users(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100),
+    password VARCHAR(255)
+);
