@@ -1,6 +1,18 @@
+##query of database creation 
+CREATE DATABASE employee_management
+
 ##create admin users table
 CREATE TABLE admin_users(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100),
     password VARCHAR(255)
+);
+
+##create employees table 
+CREATE TABLE employees(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    position VARCHAR(255),
+    salary DECIMAL(63,2),
+    status VARCHAR(255)
 );

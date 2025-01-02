@@ -1,5 +1,4 @@
 <?php
-    include 'auth.php';
     include 'dbconnect.php';
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
