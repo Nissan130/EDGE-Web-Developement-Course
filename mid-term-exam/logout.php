@@ -2,6 +2,9 @@
     session_start();
     session_unset();
     session_destroy();
+    header("Location: login.php");
+    exit;
+    
     
 
     echo "<script>alert('Logout Successfull')</script>";

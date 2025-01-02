@@ -1,7 +1,6 @@
 <?php
-// Include database connection
+include 'auth.php';
 include 'dbconnect.php';
-session_start();
 
 // Fetch employee data
 $query = "SELECT * FROM employees";
@@ -21,40 +20,32 @@ $records = $stmt->fetchAll();
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="Dashboard.php">Employee Admin Panel</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="Dashboard.php">Employee Admin Panel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="Dashboard.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="AddEmployee.php">Add Employee</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="DeleteEmployeePage.php">Delete Employee</a>
-                    </li>
-                    <?php
-                       if(isset($_SESSION['username'])) {
-                        echo "<li class='nav-item'>
-                        <a class='nav-link' href='logout.php'>Logout</a>
-                    </li>";
-                       } else {
-                        echo "<li class='nav-item'>
-                        <a class='nav-link' href='login.php'>Login</a>
-                    </li>";
-                       }
-                    ?>
-
-                </ul>
-            </div>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="Dashboard.php">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="AddEmployee.php">Add Employee</a></li>
+                <li class="nav-item"><a class="nav-link" href="DeleteEmployeePage.php">Delete Employee</a></li>
+                <?php
+                if (isset($_SESSION['username'])) {
+                    // echo "Session is set: " . $_SESSION['id']; 
+                    echo "<li class='nav-item'><a class='nav-link' href='logout.php'>Logout</a></li>";
+                } else {
+                    // echo "Session is not set"; 
+                    echo "<li class='nav-item'><a class='nav-link' href='login.php'>Login</a></li>";
+                }
+                ?>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
 
     <div class="container mt-5">
         <h2>Employee Dashboard</h2>

@@ -1,29 +1,38 @@
 <?php
-    session_start();
-     include 'dbconnect.php';
-    
+session_start();
+include 'dbconnect.php';
 
-     if($_SERVER['REQUEST_METHOD'] == "POST") {
-         $username = $_POST['username'];
-         $user_password = $_POST['password'];
- 
-         $query = "SELECT * FROM admin_users WHERE username=:username";
-         $stmt = $conn->prepare($query);
-         $stmt->bindParam(':username',$username);
-         $stmt->execute();
-         $user = $stmt->fetch();
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $username = $_POST['username'];
+    $user_password = $_POST['password'];
 
-         $hashed_password = $user['password'];
-         
-         if(password_verify($user_password,$hashed_password)) {
-             echo "<script>alert('Login Successfull')</script>";
-             echo "<script>window.open('dashboard.php','_self')</script>";
-         } else {
-             echo "<script>alert('Login failed. Try Again')</script>"; 
-             echo "<script>window.open('login.php','_self')</script>";
-         }
-     }
+    // Fetch the user from the database
+    $query = "SELECT * FROM admin_users WHERE username=:username";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
+    $user = $stmt->fetch();
+
+    if ($user) {
+        $hashed_password = $user['password']; // Hashed password from the database
+
+        // Verify the password
+        if (password_verify($user_password, $hashed_password)) {
+            // Set the session variable
+            $_SESSION['username'] = $user['username'];
+            
+            echo "<script>alert('Login Successful');</script>";
+            echo "<script>window.open('dashboard.php', '_self');</script>";
+            exit;
+        } else {
+            echo "<script>alert('Invalid username or password. Please try again.');</script>";
+        }
+    } else {
+        echo "<script>alert('Invalid username or password. Please try again.');</script>";
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +47,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="Dashboard.php">Employee Admin Panel</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -52,14 +62,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="DeleteEmployeePage.php">Delete Employee</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
+                    <?php
+                       if(isset($_SESSION['username'])) {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='logout.php'>Logout</a>
+                    </li>";
+                       } else {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='login.php'>Login</a>
+                    </li>";
+                       }
+                    ?>
+
                 </ul>
             </div>
         </div>
-</nav>
-    <div class="container">
+    </nav>
+    <div class="container mt-5">
         <form action="" method="post">
             <h2 class="text-center mt-5">Login</h2>
             <div class="mb-3 mt-3">

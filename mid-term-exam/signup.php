@@ -1,4 +1,5 @@
 <?php
+    include 'auth.php';
     include 'dbconnect.php';
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -49,9 +50,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="DeleteEmployeePage.php">Delete Employee</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
+                    <?php
+                     session_start();
+                       if(isset($_SESSION['username'])) {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='logout.php'>Logout</a>
+                    </li>";
+                       } else {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='login.php'>Login</a>
+                    </li>";
+                       }
+                    ?>
                 </ul>
             </div>
         </div>

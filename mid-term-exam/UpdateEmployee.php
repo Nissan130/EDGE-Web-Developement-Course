@@ -1,5 +1,7 @@
 <?php
+    include 'auth.php';
     include 'dbconnect.php';
+    
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
         $query = "SELECT * FROM employees WHERE id=:id";
@@ -58,18 +60,34 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="Dashboard.php">Dashboard</a>
-                    </li>
+                    <?php
+                        if(!isset($_SESSION['username'])) {
+                            header('Location: login.php');
+                            exit;
+                        } else {
+                            echo "<li class='nav-item'>
+                        <a class='nav-link' href='Dashboard.php'>Dashboard</a>
+                    </li>";
+                        }
+                    ?>
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="AddEmployee.php">Add Employee</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="DeleteEmployeePage.php">Delete Employee</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
+                    <?php
+                       if(isset($_SESSION['username'])) {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='logout.php'>Logout</a>
+                    </li>";
+                       } else {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='login.php'>Login</a>
+                    </li>";
+                       }
+                    ?>
                 </ul>
             </div>
         </div>
